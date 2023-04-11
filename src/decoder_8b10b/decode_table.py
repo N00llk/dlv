@@ -1,4 +1,4 @@
-from symbol_code import SymbolCode, SymbolInfo
+from src.decoder_8b10b.symbol_code import SymbolCode, SymbolInfo
 
 SYMBOL_INFO_LIST = [
     SymbolInfo(0x00, "00", SymbolCode.INV    , False,    "INV"),  # Current RD+:           (0),
@@ -1026,3 +1026,8 @@ SYMBOL_INFO_LIST = [
     SymbolInfo(0x00, "00", SymbolCode.INV    , False,    "INV"),  # Current RD+:           (1022),
     SymbolInfo(0x00, "00", SymbolCode.INV    , False,    "INV")   # Current RD+:           (1023),
 ]
+
+
+def decode(value: int) -> SymbolInfo:
+    assert value >= 0 or value < 0x3FF
+    return SYMBOL_INFO_LIST[value]

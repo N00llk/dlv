@@ -290,3 +290,9 @@ class SymbolInfo:
         self.code = code
         self.sign = sign
         self.code_string = code_string
+
+    def __str__(self):
+        return f"{self.code_string} : 0x{self.value_str}"
+
+    def is_control(self) -> bool:
+        return SymbolCode.First_K <= self.code <= SymbolCode.Last_K
