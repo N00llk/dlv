@@ -1,10 +1,14 @@
 import src.decoder_8b10b as dec8b10b
 import os
+import time
 
 from src.elements.elemets_list import ELEMENTS_LIST_EFM
 from src.elements.element_searcher import PatternSearcher
 import src.elements as efm
+import src.report_generator as gen
 
+
+start = time.time()
 with open(os.path.join('./', 'resources', 'mldata10_lane_0.bin'), "rb") as file:
     data = bytearray(file.read())
 
@@ -40,32 +44,43 @@ for i in range(0, len(data), 2):
         else:
             lfsr = dec8b10b.advance_lfsr(lfsr)
 
-with open("8bdata.bin", "wb") as file:
+end = time.time()
+print(f"Decoding time ({len(data)} bytes): {end - start} seconds")
+
+with open("8b_data.bin", "wb") as file:
     file.write(bytearray(data_list))
 
-searcher = PatternSearcher(symbol_list_8b)
+with open("8b_symbol.bin", "wb") as file:
+    file.write(bytearray([symbol.value for symbol in symbol_list_8b]))
 
-start_bs, end_bs = searcher.search(efm.BS(), 0)
-first_be, end_be = searcher.search(efm.BE(), start_bs)
-print(f"{efm.BS().name}: [{start_bs}, {end_bs}] : {efm.BS()._pattern}")
-for i in range(0, 12, 3):
-    print(f"VB-ID: [{end_bs + 1 + i}] : {hex(data_list[end_bs + 1 + i] & 0xff)}")
-    print(f"Mvid: [{end_bs + 2 + i}] : {hex(data_list[end_bs + 2 + i] & 0xff)}")
-    print(f"Maud: [{end_bs + 3 + i}] : {hex(data_list[end_bs + 3 + i] & 0xff)}")
-start_ss1, end_ss1 = searcher.search(efm.SS(), end_bs)
-start_ss2, end_ss2 = searcher.search(efm.SS(), end_ss1)
-print(f"{efm.SS().name}: [{start_ss1}, {end_ss1}] : {efm.SS()._pattern}")
-print(f"{efm.SS().name}: [{start_ss2}, {end_ss2}] : {efm.SS()._pattern}")
-print(f"{efm.BE().name}: [{first_be}, {end_be}] : {efm.BE()._pattern}")
+print("Data decoded")
 
-start_search_be = 0
-while True:
-    start_be, end_be = searcher.search(efm.BE(), start_search_be)
-    if start_be == -1:
-        break
-    start_search_be = start_be
+# gen.generate_symbol_report('symbol_report.html', symbol_list_8b)
+gen.generate_summary_report('summary_report.html', [symbol_list_8b])
 
-    print(f"{efm.BE().name}: [{start_be}, {end_be}]")
+# searcher = PatternSearcher(symbol_list_8b)
+#
+# start_bs, end_bs = searcher.search(efm.BS(), 0)
+# first_be, end_be = searcher.search(efm.BE(), start_bs)
+# print(f"{efm.BS().name}: [{start_bs}, {end_bs}] : {efm.BS()._pattern}")
+# for i in range(0, 12, 3):
+#     print(f"VB-ID: [{end_bs + 1 + i}] : {hex(data_list[end_bs + 1 + i] & 0xff)}")
+#     print(f"Mvid: [{end_bs + 2 + i}] : {hex(data_list[end_bs + 2 + i] & 0xff)}")
+#     print(f"Maud: [{end_bs + 3 + i}] : {hex(data_list[end_bs + 3 + i] & 0xff)}")
+# start_ss1, end_ss1 = searcher.search(efm.SS(), end_bs)
+# start_ss2, end_ss2 = searcher.search(efm.SS(), end_ss1)
+# print(f"{efm.SS().name}: [{start_ss1}, {end_ss1}] : {efm.SS()._pattern}")
+# print(f"{efm.SS().name}: [{start_ss2}, {end_ss2}] : {efm.SS()._pattern}")
+# print(f"{efm.BE().name}: [{first_be}, {end_be}] : {efm.BE()._pattern}")
+#
+# start_search_be = 0
+# while True:
+#     start_be, end_be = searcher.search(efm.BE(), start_search_be)
+#     if start_be == -1:
+#         break
+#     start_search_be = start_be
+#
+#     print(f"{efm.BE().name}: [{start_be}, {end_be}]")
 
 
 # post_print = 0

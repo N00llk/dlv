@@ -273,6 +273,8 @@ class SymbolCode(IntEnum):
     D29_7 = 266
     D30_7 = 267
     D31_7 = 268
+    First_D = D0_0
+    Last_D = D31_7
     C0 = 269
     C1 = 270
     C2 = 271
@@ -293,6 +295,12 @@ class SymbolInfo:
 
     def __str__(self):
         return f"{self.code_string} : 0x{self.value_str}"
+
+    def __bytes__(self):
+        return self.value
+
+    def __int__(self):
+        return self.value
 
     def is_control(self) -> bool:
         return SymbolCode.First_K <= self.code <= SymbolCode.Last_K

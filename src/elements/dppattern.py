@@ -1,5 +1,6 @@
 from src.decoder_8b10b.symbol_code import SymbolInfo, SymbolCode
 from enum import IntEnum
+from typing import List
 
 
 class DetectedPattern(IntEnum):
@@ -11,7 +12,7 @@ class DetectedPattern(IntEnum):
 
 
 class DPPattern:
-    def __init__(self, name: str, pattern: list[SymbolCode]):
+    def __init__(self, name: str, pattern: List[SymbolCode]):
         self.name = name
         self._pattern = pattern
         self._pattern_size = len(self._pattern)

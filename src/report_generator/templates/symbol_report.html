@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Symbol report</title>
+</head>
+<body>
+    <h1>{{ test_name }} Results</h1>
+    <table>
+    {% for symbol in symbols %}
+        <tr>
+            <td>{{ symbol.code_string }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>

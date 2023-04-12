@@ -1,4 +1,6 @@
 from src.decoder_8b10b.symbol_code import SymbolCode, SymbolInfo
+import copy
+
 
 SYMBOL_INFO_LIST = [
     SymbolInfo(0x00, "00", SymbolCode.INV    , False,    "INV"),  # Current RD+:           (0),
@@ -1028,6 +1030,15 @@ SYMBOL_INFO_LIST = [
 ]
 
 
+VALID_SYMBOL_INFO_LIST = copy.deepcopy(SYMBOL_INFO_LIST)
+VALID_SYMBOL_INFO_LIST.sort(key=lambda x: x.value)
+
+
 def decode(value: int) -> SymbolInfo:
     assert value >= 0 or value < 0x3FF
     return SYMBOL_INFO_LIST[value]
+
+
+def by_value(value: int) -> SymbolInfo:
+    assert value >= 0 or value < 0xFF
+    return VALID_SYMBOL_INFO_LIST[value]

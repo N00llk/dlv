@@ -1,9 +1,10 @@
 from src.decoder_8b10b.symbol_code import SymbolInfo
 from src.elements.dppattern import DPPattern
+from typing import List
 
 
 class PatternSearcher:
-    def __init__(self, symbol_list: list[SymbolInfo]):
+    def __init__(self, symbol_list: List[SymbolInfo]):
         self.symbol_list = symbol_list
 
     def search(self, element: DPPattern, position_from: int, position_to: int = None):
