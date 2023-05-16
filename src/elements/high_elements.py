@@ -39,3 +39,38 @@ class VideoFrame(DPElement):
 
     def to_html(self):
         return f"""<div>{self.__str__()}</div>"""
+
+
+class SDP(DPElement):
+    def __init__(self, start, end, data):
+        super(SDP, self).__init__(start, end)
+        self.__header = data[:4]
+        self.__body = data[4:]
+
+    def __str__(self):
+        return f"SDP:\n" \
+               f"   Header:  {self.__header}\n" \
+               f"   Body:    {self.__body}\n"
+
+    def to_html(self):
+        return f"""<div>{self.__str__()}</div>"""
+
+
+class MSA(DPElement):
+    def __init__(self, start, end, data):
+        super(MSA, self).__init__(start, end)
+        self.__data = data
+
+    def __str__(self):
+        return f"MSA:\n" \
+               f"   HTotal:  {int.from_bytes(self.__data[3:5], byteorder='big')}\n" \
+               f"   VTotal:  {int.from_bytes(self.__data[5:7], byteorder='big')}\n" \
+               f"   HSync:   {int.from_bytes(self.__data[8:10] & 0x7F, byteorder='big') * (1 if self.__data[8] & 0x80 else -1)}\n" \
+               f"   HStart:  {int.from_bytes(self.__data[14:16], byteorder='big')}\n" \
+               f"   VStart:  {int.from_bytes(self.__data[16:18], byteorder='big')}\n" \
+               f"   VSync:   {int.from_bytes(self.__data[18:20] & 0x7F, byteorder='big') * (1 if self.__data[18] & 0x80 else -1)}\n" \
+               f"   MISC:    {hex(int.from_bytes(self.__data[0:2], byteorder='big'))}\n"
+
+    def to_html(self):
+        return f"""<div>{self.__str__()}</div>"""
+
