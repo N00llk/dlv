@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analyse Summary</title>
+    <style type="text/css">
+   TABLE {
+    width: 300px;
+    border-collapse: collapse;
+   }
+   TD, TH {
+    padding: 3px;
+    border: 1px solid black;
+   }
+   TH {
+    background: #b0e0e6;
+   }
+  </style>
+</head>
+<body>
+<table>
+   <tr>
+       <td colspan="3">Видеокадр&nbsp;№{{ frame_num }} ( {{ frame_size }} &nbsp;байт)</td>
+   </tr>
+   <tr>
+       <td>HTotal</td>
+       <td>{{ Htotal }}</td>
+       <td rowspan="9"><img src="./frames/frame_1.jpg" alt="Изображение видеокадра" width="200"></td>
+   </tr>
+    <tr>
+       <td>VTotal</td>
+       <td>{{ Vtotal }}</td>
+   </tr>
+    <tr>
+       <td>HSyncWidth</td>
+       <td>{{ HSyncWidth }}</td>
+   </tr>
+    <tr>
+       <td>VSyncWidth</td>
+       <td>{{ VSyncWidth }}</td>
+   </tr>
+    <tr>
+       <td>HStart</td>
+       <td>{{ HStart }}</td>
+   </tr>
+    <tr>
+       <td>VStart</td>
+       <td>{{ VStart }}</td>
+   </tr>
+    <tr>
+       <td>Hwidth</td>
+       <td>{{ Hwidth }}</td>
+   </tr>
+    <tr>
+       <td>Vheight</td>
+       <td>{{ Vheight }}</td>
+   </tr>
+    <tr>
+       <td>Цветовой формат</td>
+       <td>{{ color_format }}</td>
+   </tr>
+    <tr>
+       <td>CRC</td>
+       <td colspan="2">{{ crc_str }}</td>
+   </tr>
+</table>
+</body>
+</html>
